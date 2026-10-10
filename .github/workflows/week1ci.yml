@@ -7,6 +7,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      - name: Verify Azure Login
+        run: |
+          az account show
+          az group list --output table
       - name: Display folder structure
         run: |
           sudo apt-get update
@@ -16,4 +26,12 @@ jobs:
         run: |
           cd Week1/k8s-aks-demo/
           docker compose build
+      - name: ACR Login
+        run: |
+          az login
+          az acr login --name multiontaineregister
+      - name: Push the Image to ACR
+        run: |
+          cd Week1/k8s-aks-demo/
+          docker compose push
 
