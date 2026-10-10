@@ -1,7 +1,7 @@
 services:
   frontend:
     build: ./frontend
-    image: claimiq-frontend:v1
+    image: multiontaineregister.azurecr.io/claimiq-frontend:latest
     ports:
       - "8080:80"
     depends_on:
@@ -9,7 +9,7 @@ services:
   
   backend:
     build: ./backend
-    image: claimiq-backend:v1
+    image: multiontaineregister.azurecr.io/claimiq-backend:latest
     environment:
       DB_HOST: postgres
       DB_NAME: claimiq
