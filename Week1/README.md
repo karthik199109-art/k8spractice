@@ -782,3 +782,85 @@ jobs:
 - **`id-token: write`:** Allows the workflow to request a GitHub OIDC token.
 - **Azure RBAC:** Controls which Azure resources and operations the identity can access.
 - **`azure/login@v2`:** Authenticates the GitHub Actions workflow to Azure.
+---
+
+## 7. Build and Push Docker Compose Images to Azure Container Registry (ACR)
+
+### Step 1: Log In to Azure
+
+First, sign in to Azure:
+
+```bash
+az login
+```
+
+If you need to use a specific subscription, select it:
+
+```bash
+az account set --subscription "<subscription-id>"
+```
+
+### Step 2: Log In to Azure Container Registry
+
+Use the ACR resource name to sign in:
+
+```bash
+az acr login --name <acr-name>
+```
+
+Replace `<acr-name>` with your Azure Container Registry resource name. For example:
+
+```bash
+az acr login --name myregistry
+```
+
+### Step 3: Update the Image Names in the Docker Compose File
+
+In the Docker Compose file, set each image name to the ACR login server followed by the image name and tag.
+
+Example:
+
+```yaml
+services:
+  backend:
+    build: ./backend
+    image: mycontainerregistry.azurecr.io/claimiq-backend:latest
+```
+
+Replace `mycontainerregistry.azurecr.io` with your registry's actual login server. You can find it in the Azure portal under your ACR's **Overview** page or by running:
+
+```bash
+az acr show --name <acr-name> --query loginServer --output tsv
+```
+
+The image name must point to your ACR login server so Docker Compose knows where to push the image.
+
+### Step 4: Build the Images
+
+Run this command from the directory containing your Docker Compose file:
+
+```bash
+docker compose build
+```
+
+This builds the images for the services that have a `build` configuration.
+
+### Step 5: Push the Images to ACR
+
+After the images are built and you have logged in to ACR, run:
+
+```bash
+docker compose push
+```
+
+Docker Compose pushes the images to the registries specified in the `image` fields.
+
+### Quick Revision
+
+1. Log in to Azure using `az login`.
+2. Log in to ACR using `az acr login --name <acr-name>`.
+3. Update the Compose `image` fields to use the ACR login server.
+4. Build the images using `docker compose build`.
+5. Push the images using `docker compose push`.
+
+**Important:** The identity used to log in must have permission to push images to ACR, such as the appropriate `AcrPush` role where applicable. In registries using the repository-level ABAC permission mode, assign the corresponding repository writer role instead.
