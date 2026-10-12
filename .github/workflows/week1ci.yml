@@ -61,7 +61,7 @@ jobs:
         uses: azure/aks-set-context@v5
         with:
           resource-group: rg-claimiq-aks-dev
-          clueter-name: claimiq-aks-dev
+          cluster-name: claimiq-aks-dev
       - name: Create Namespace
         run: |
           cd Week1/k8s-aks-demo/
