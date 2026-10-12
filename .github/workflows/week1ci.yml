@@ -80,9 +80,9 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
       - name: Deploy PostgresSQL Resources
         run: |
-          kubectl apply -f k8s/database/pvc.yaml
-          kubectl apply -f k8s/database/deployment.yaml
-          kubectl apply -f k8s/database/service.yaml
+          kubectl apply -f k8s/database/pvc.yml
+          kubectl apply -f k8s/database/deployment.yml
+          kubectl apply -f k8s/database/service.yml
       - name: Wait for PostgreSQL
         run: |
           kubectl rollout status deployment/postgres \
