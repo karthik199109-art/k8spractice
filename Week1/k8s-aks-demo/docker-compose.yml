@@ -12,9 +12,9 @@ services:
     image: multiontaineregister.azurecr.io/claimiq-backend:latest
     environment:
       DB_HOST: postgres
-      DB_NAME: claimiq
-      DB_USER: postgresuser
-      DB_PASSWORD: Thelastofus09@
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_PORT: "5432"
     depends_on:
       postgres:
@@ -23,9 +23,9 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: claimiq
-      POSTGRES_USER: postgresuser
-      POSTGRES_PASSWORD: Thelastofus09@
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
