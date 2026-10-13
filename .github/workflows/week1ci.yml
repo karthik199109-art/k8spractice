@@ -89,6 +89,18 @@ jobs:
           kubectl rollout status deployment/postgres \
             -n claimiq \
             --timeout=180s
+      
+      - name: Deploy Backend
+        run: |
+          cd Week1/k8s-aks-demo/
+          kubectl apply -f k8s/backend/deployment.yml
+          kubectl apply -f k8s/backend/service.yml
+      - name: Wait for backend
+        run: |
+          kubectl rollout status deployment/claimiq-backend \
+            -n claimiq \
+            --timeout=180s
+
 
       - name: Verify deployment
         if: always()
@@ -96,6 +108,8 @@ jobs:
           kubectl get pods -n claimiq
           kubectl get services -n claimiq
           kubectl get pvc -n claimiq
+          kubectl get events -n claimiq --sort-by=.lastTimestamp
+  
         
 
 

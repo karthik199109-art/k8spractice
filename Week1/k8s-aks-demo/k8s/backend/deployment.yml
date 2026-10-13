@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: claimiq-backend
+  namespace: claimiq
+  labels:
+    app: claimiq-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: claimiq-backend
+  template:
+    metadata:
+      labels:
+        app: claimiq-backend
+    spec:
+      containers:
+        - name: backend
+          image: claimqregistry.azurecr.io/claimiq-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
