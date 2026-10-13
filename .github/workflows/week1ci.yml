@@ -104,8 +104,8 @@ jobs:
       - name: Deploy Frontend
         run: |
           cd Week1/k8s-aks-demo/
-          kubectl apply -f k8s/frontend/deployment.yaml
-          kubectl apply -f k8s/frontend/service.yaml
+          kubectl apply -f k8s/frontend/deployment.yml
+          kubectl apply -f k8s/frontend/service.yml
       - name: Wait for frontend
         run: |
           kubectl rollout status deployment/claimiq-frontend \
