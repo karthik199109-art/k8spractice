@@ -101,7 +101,16 @@ jobs:
             -n claimiq \
             --timeout=180s
 
-
+      - name: Deploy Frontend
+        run: |
+          cd Week1/k8s-aks-demo/
+          kubectl apply -f k8s/frontend/deployment.yaml
+          kubectl apply -f k8s/frontend/service.yaml
+      - name: Wait for frontend
+        run: |
+          kubectl rollout status deployment/claimiq-frontend \
+            -n claimiq \
+            --timeout=180s
       - name: Verify deployment
         if: always()
         run: |

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: claimiq-frontend
+  namespace: claimiq
+spec:
+  type: LoadBalancer
+  selector:
+    app: claimiq-frontend
+  ports:
+    - port: 80
+      targetPort: 80
