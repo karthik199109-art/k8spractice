@@ -69,13 +69,13 @@ jobs:
       - name: Create PostgreSQL Secret
         env:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER}}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         run: |
           kubectl create secret generic postgres-secret \
             --namespace claimiq \
-            --from-literal=POSTGRES_DB=claimiq \
-            --from-literal=POSTGRES_USER=appuser \
+            --from-literal=POSTGRES_DB="$POSTGRES_DB" \
+            --from-literal=POSTGRES_USER="$POSTGRES_USER" \
             --from-literal=POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
             --dry-run=client -o yaml | kubectl apply -f -
       - name: Deploy PostgresSQL Resources
@@ -120,5 +120,4 @@ jobs:
           kubectl get events -n claimiq --sort-by=.lastTimestamp
   
         
-
 
