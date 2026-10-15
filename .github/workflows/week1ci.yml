@@ -35,7 +35,7 @@ jobs:
           docker compose build
       - name: ACR Login
         run: |
-          az acr login --name claimqregistry-d4emdjbtg0cceycu
+          az acr login --name claimqregistry
       - name: Push the Image to ACR
         env:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}

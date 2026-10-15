@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: claimqregistry-d4emdjbtg0cceycu.azurecr.io/claimiq-frontend:latest
+          image: claimqregistry.azurecr.io/claimiq-frontend:latest
           ports:
             - containerPort: 80
           resources:
