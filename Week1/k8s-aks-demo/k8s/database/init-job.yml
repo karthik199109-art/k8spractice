@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init
+  namespace: claimiq
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: initialize-database
+          image: postgres:16-alpine
+          command: ["psql"]
+          args:
+            - "-v"
+            - "ON_ERROR_STOP=1"
+            - "-h"
+            - "postgres"
+            - "-U"
+            - "$(POSTGRES_USER)"
+            - "-d"
+            - "$(POSTGRES_DB)"
+            - "-f"
+            - "/sql/init.sql"
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: init-sql
+              mountPath: /sql
+              readOnly: true
+      volumes:
+        - name: init-sql
+          configMap:
+            name: postgres-init-sql

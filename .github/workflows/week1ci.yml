@@ -89,17 +89,21 @@ jobs:
           kubectl rollout status deployment/postgres \
             -n claimiq \
             --timeout=180s
-      - name: Initialize PostgreSQL schema
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      - name: Create PostgreSQL init ConfigMap
         run: |
-          kubectl exec -i deployment/postgres \
-            -n claimiq \
-            -- psql -v ON_ERROR_STOP=1 \
-            -U "$POSTGRES_USER" \
-            -d "$POSTGRES_DB" \
-            < Week1/k8s-aks-demo/database/init.sql
+          kubectl create configmap postgres-init-sql \
+            --namespace claimiq \
+            --from-file=init.sql=Week1/k8s-aks-demo/database/init.sql \
+            --dry-run=client -o yaml | kubectl apply -f -
+      - name: Run PostgreSQL initialization Job
+        run: |
+          kubectl delete job postgres-init \
+            --namespace claimiq \
+            --ignore-not-found=true
+          kubectl apply -f Week1/k8s-aks-demo/k8s/database/init-job.yml
+          kubectl wait --for=condition=complete job/postgres-init \
+            --namespace claimiq \
+            --timeout=180s
       
       - name: Deploy Backend
         run: |
