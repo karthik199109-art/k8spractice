@@ -4,7 +4,14 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (name)
-VALUES
+SELECT seed.name
+FROM (VALUES
     ('Karthik'),
     ('Azure Engineer'),
-    ('Kubernetes Engineer');
+    ('Kubernetes Engineer')
+) AS seed(name)
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM users
+    WHERE users.name = seed.name
+);

@@ -89,6 +89,17 @@ jobs:
           kubectl rollout status deployment/postgres \
             -n claimiq \
             --timeout=180s
+      - name: Initialize PostgreSQL schema
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        run: |
+          kubectl exec -i deployment/postgres \
+            -n claimiq \
+            -- psql -v ON_ERROR_STOP=1 \
+            -U "$POSTGRES_USER" \
+            -d "$POSTGRES_DB" \
+            < Week1/k8s-aks-demo/database/init.sql
       
       - name: Deploy Backend
         run: |
@@ -120,4 +131,3 @@ jobs:
           kubectl get events -n claimiq --sort-by=.lastTimestamp
   
         
-
