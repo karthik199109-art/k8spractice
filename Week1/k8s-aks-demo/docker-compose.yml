@@ -9,7 +9,7 @@ services:
   
   backend:
     build: ./backend
-    image: claimqregistry.azurecr.io/claimiq-backend:latest
+    image: claimqregistry.azurecr.io/claimiq-backend:v1
     environment:
       DB_HOST: postgres
       DB_NAME: ${POSTGRES_DB}

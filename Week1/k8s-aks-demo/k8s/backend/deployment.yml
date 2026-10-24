@@ -6,7 +6,7 @@ metadata:
   labels:
     app: claimiq-backend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: claimiq-backend
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: claimqregistry.azurecr.io/claimiq-backend:latest
+          image: claimqregistry.azurecr.io/claimiq-backend:v1
           ports:
             - containerPort: 5000
           env:
