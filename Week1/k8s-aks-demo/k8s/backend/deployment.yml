@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: claimqregistry.azurecr.io/claimiq-backend:v2
+          image: claimqregistry.azurecr.io/claimiq-backend:latest
           ports:
             - containerPort: 5000
           env:
