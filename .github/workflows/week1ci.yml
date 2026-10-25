@@ -3,7 +3,8 @@ on: [workflow_dispatch]
 permissions:
   id-token: write
   contents: read
-  security-events: read
+  security-events: write
+  actions: read
 jobs:
   build:
     name: build docker images
