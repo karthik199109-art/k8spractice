@@ -33,6 +33,26 @@ jobs:
         run: |
           cd Week1/k8s-aks-demo/
           docker compose build
+      - name: Scan Frontend Docker Image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: 'claimqregistry.azurecr.io/claimiq-frontend:latest'
+          format: 'sarif'
+          output: 'trivy-frontend-results.sarif'
+      - name: Scan Backend Docker Image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: 'claimqregistry.azurecr.io/claimiq-backend:latest'
+          format: 'sarif'
+          output: 'trivy-backend-results.sarif'
+      - name: Upload Frontend Scan Results
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: 'trivy-frontend-results.sarif'
+      - name: Upload Backend Scan Results
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: 'trivy-backend-results.sarif'
       - name: ACR Login
         run: |
           az acr login --name claimqregistry
