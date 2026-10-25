@@ -51,10 +51,12 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: 'trivy-frontend-results.sarif'
+          category: 'frontend-scan'
       - name: Upload Backend Scan Results
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: 'trivy-backend-results.sarif'
+          category: 'backend-scan'
       - name: ACR Login
         run: |
           az acr login --name claimqregistry
