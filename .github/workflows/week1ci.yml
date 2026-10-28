@@ -154,7 +154,7 @@ jobs:
       - name: Create Ingress Resource
         run: |
           cd Week1/k8s-aks-demo/
-          kubectl apply -f claimiq-ingress.yaml
+          kubectl apply -f k8s/claimiq-ingress.yaml
       - name: Verify deployment
         if: always()
         run: |
