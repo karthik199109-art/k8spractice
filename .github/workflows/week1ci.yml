@@ -151,6 +151,10 @@ jobs:
           kubectl rollout status deployment/claimiq-frontend \
             -n claimiq \
             --timeout=180s
+      - name: Create Ingress Resource
+        run: |
+          cd Week1/k8s-aks-demo/
+          kubectl apply -f claimiq-ingress.yaml
       - name: Verify deployment
         if: always()
         run: |
