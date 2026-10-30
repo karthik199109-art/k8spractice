@@ -157,11 +157,12 @@ jobs:
           kubectl rollout status deployment/claimiq-frontend \
             -n claimiq \
             --timeout=180s
-      - name: Create Ingress Resource
+      - name: Create Ingress Resource, Certificate
         run: |
           cd Week1/k8s-aks-demo/
           kubectl apply -f k8s/letsencrypt-staging.yaml
           kubectl apply -f k8s/claimiq-ingress.yaml
+          kubectl apply -f k8s/claimiq-certificate.yaml
       - name: Verify deployment
         if: always()
         run: |
