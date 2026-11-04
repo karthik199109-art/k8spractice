@@ -34,7 +34,8 @@ spec:
     - hosts:
         - demoproject.in
         - www.demoproject.in
-      secretName: claimiq-tls-secret
+      # secretName: claimiq-tls-secret # staging secret
+      secretName: claimiq-tls-production-secret
   rules:
     - host: demoproject.in
       http:
