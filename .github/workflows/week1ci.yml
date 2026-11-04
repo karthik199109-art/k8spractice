@@ -140,7 +140,7 @@ jobs:
           cd Week1/k8s-aks-demo/
           kubectl apply -f k8s/backend/deployment.yml
           kubectl apply -f k8s/backend/service.yml
-          kubectl apply -f k8s/backend/nodeportservice.yml
+          # kubectl apply -f k8s/backend/nodeportservice.yml
       - name: Wait for backend
         run: |
           kubectl rollout status deployment/claimiq-backend \
@@ -160,7 +160,8 @@ jobs:
       - name: Create Ingress Resource, Certificate
         run: |
           cd Week1/k8s-aks-demo/
-          kubectl apply -f k8s/letsencrypt-staging.yaml
+          # kubectl apply -f k8s/letsencrypt-staging.yaml
+          kubectl apply -f k8s/letsencrypt-production.yaml
           kubectl apply -f k8s/claimiq-ingress.yaml
           kubectl apply -f k8s/claimiq-certificate.yaml
       - name: Verify deployment
