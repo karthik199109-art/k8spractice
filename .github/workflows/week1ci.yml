@@ -163,7 +163,8 @@ jobs:
           # kubectl apply -f k8s/letsencrypt-staging.yaml
           kubectl apply -f k8s/letsencrypt-production.yaml
           kubectl apply -f k8s/claimiq-ingress.yaml
-          kubectl apply -f k8s/claimiq-certificate.yaml
+          # kubectl apply -f k8s/claimiq-certificate.yaml
+          kubectl apply -f k8s/claimiq-tls-production.yml
       - name: Verify deployment
         if: always()
         run: |
