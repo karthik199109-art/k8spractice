@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: claimiq-frontend
+  namespace: claimiq
+  labels:
+    app: claimiq-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: claimiq-frontend
+  template:
+    metadata:
+      labels:
+        app: claimiq-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: claimqregistry.azurecr.io/claimiq-frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi

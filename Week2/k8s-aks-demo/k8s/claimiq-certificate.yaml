@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: claimiq-tls
+  namespace: claimiq
+spec:
+  secretName: claimiq-tls-secret
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - demoproject.in
+    - www.demoproject.in

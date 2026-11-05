@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AKS Demo Application</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AKS Demo Application</h1>
+
+    <p>Frontend is running successfully.</p>
+
+    <button onclick="getUsers()">
+        Get Users
+    </button>
+
+    <div id="result"></div>
+
+    <script>
+
+        async function getUsers() {
+
+            const response = await fetch("/api/users");
+
+            const users = await response.json();
+
+            let html = "<h3>Users</h3><ul>";
+
+            users.forEach(user => {
+                html += `<li>${user.id} - ${user.name}</li>`;
+            });
+
+            html += "</ul>";
+
+            document.getElementById("result").innerHTML = html;
+        }
+
+    </script>
+
+</body>
+
+</html>

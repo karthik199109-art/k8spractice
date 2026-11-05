@@ -132,10 +132,11 @@ jobs:
           kubectl wait --for=condition=complete job/postgres-init \
             --namespace claimiq \
             --timeout=180s
-      - name: Create a Config Map
-        run: |
-          cd Week1/k8s-aks-demo/
-          kubectl apply -f k8s/claimiq-config.yaml
+      # - name: Create a Config Map and test with pod
+      #   run: |
+      #     cd Week1/k8s-aks-demo/
+      #     kubectl apply -f k8s/claimiq-config.yaml
+      #     kubectl apply -f k8s/configmap-test-pod.yaml
       - name: Deploy Backend
         run: |
           cd Week1/k8s-aks-demo/
