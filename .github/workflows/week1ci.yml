@@ -127,14 +127,15 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
       - name: Run PostgreSQL initialization Job
         run: |
-          kubectl delete job postgres-init \
-            --namespace claimiq \
-            --ignore-not-found=true
+          kubectl delete job postgres-init --namespace claimiq --ignore-not-found=true
           kubectl apply -f Week1/k8s-aks-demo/k8s/database/init-job.yml
           kubectl wait --for=condition=complete job/postgres-init \
             --namespace claimiq \
             --timeout=180s
-      
+      - name: Create a Config Map
+        run: |
+          cd Week1/k8s-aks-demo/
+          kubectl apply -f k8s/claimiq-config.yaml
       - name: Deploy Backend
         run: |
           cd Week1/k8s-aks-demo/
